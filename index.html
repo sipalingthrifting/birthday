@@ -6,13 +6,10 @@
 <title>Birthday Surprise 💖</title>
 
 <style>
-* {
-  box-sizing: border-box;
-}
-
+* { box-sizing: border-box; }
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Georgia', serif;
   background: linear-gradient(135deg, #ff9ecb, #ffc0cb);
   text-align: center;
 }
@@ -36,14 +33,10 @@ body {
   margin: 10px auto;
 }
 
-canvas {
-  width: 100%;
-  border-radius: 20px;
-}
+canvas { width: 100%; border-radius: 20px; }
 
 /* pesan */
 .message, .surprise {
-  font-family: 'Georgia', serif;
   line-height: 1.6;
   letter-spacing: 0.5px;
   color: white;
@@ -60,65 +53,34 @@ canvas {
   border-radius: 12px;
   cursor: pointer;
 }
+.gift-box::before { content: ''; position: absolute; width: 100%; height: 18px; background: gold; top: 46px; }
+.gift-box::after { content: ''; position: absolute; width: 18px; height: 100%; background: gold; left: 46px; }
 
-.gift-box::before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 18px;
-  background: gold;
-  top: 46px;
-}
-
-.gift-box::after {
-  content: '';
-  position: absolute;
-  width: 18px;
-  height: 100%;
-  background: gold;
-  left: 46px;
-}
-
-.lid {
-  width: 110px;
-  height: 28px;
-  background: #ff4da6;
-  position: absolute;
-  top: -28px;
-  border-radius: 10px;
-  transition: 0.4s;
-}
-
-.open .lid {
-  transform: translateY(-60px) rotate(-25deg);
-}
+.lid { width: 110px; height: 28px; background: #ff4da6; position: absolute; top: -28px; border-radius: 10px; transition: 0.4s; }
+.open .lid { transform: translateY(-60px) rotate(-25deg); }
 
 /* surprise */
-.surprise {
-  display: none;
-}
+.surprise { display: none; }
+.open + .surprise { display: block; animation: fadeIn 1s ease; }
+@keyframes fadeIn { from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);} }
 
-.open + .surprise {
-  display: block;
-  animation: fadeIn 1s ease;
+/* FOTO + tombol di atas */
+.photo-container {
+  position: relative;
+  display: inline-block;
+  margin-top: 15px;
 }
-
-@keyframes fadeIn {
-  from {opacity:0; transform:translateY(10px);}
-  to {opacity:1; transform:translateY(0);}
-}
-
-/* FOTO */
-.gallery img {
+.photo-container img {
   width: 90%;
   max-width: 300px;
   border-radius: 15px;
-  margin-top: 10px;
+  display: block;
 }
-
-/* tombol WA */
 #giftBtn {
-  margin-top: 15px;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   padding: 12px 20px;
   border: none;
   border-radius: 25px;
@@ -126,12 +88,18 @@ canvas {
   color: white;
   font-size: 16px;
   cursor: pointer;
+  animation: glow 1.5s infinite alternate;
+  box-shadow: 0 0 10px #25D366, 0 0 20px #25D366, 0 0 30px #25D366;
+}
+
+/* efek cahaya glow */
+@keyframes glow {
+  from { box-shadow: 0 0 5px #25D366, 0 0 10px #25D366, 0 0 15px #25D366; }
+  to   { box-shadow: 0 0 20px #25D366, 0 0 40px #25D366, 0 0 60px #25D366; }
 }
 
 /* hidden */
-.hidden {
-  display: none;
-}
+.hidden { display: none; }
 </style>
 </head>
 
@@ -154,19 +122,15 @@ canvas {
     Di hari yang indah ini,<br>
     aku hanya ingin kamu tahu…<br>
     bahwa kehadiranmu adalah hadiah terindah dalam hidupku 💖<br><br>
-    Selamat ulang tahun Sayang,<br>
+    Selamat ulang tahun KLIK KADONYA,<br>
     <b>SHELLY APRILIANI SRUBAKTI</b> 🌹
   </div>
 
-  <!-- FOTO -->
-  <div class="gallery hidden" id="gallery">
+  <!-- FOTO + tombol -->
+  <div class="photo-container hidden" id="photoContainer">
     <img id="photo" src="https://i.ibb.co/60hk0tTJ/S-18358291.jpg">
+    <button id="giftBtn" class="hidden">Mau hadiah apa 💖</button>
   </div>
-
-  <!-- TOMBOL -->
-  <button id="giftBtn" class="hidden">
-    Mau hadiah apa 💖
-  </button>
 
   <div class="message">
     💖 Happy Birthday My Love 💖<br><br>
@@ -186,7 +150,7 @@ const gift = document.getElementById('gift');
 const canvas = document.getElementById('birthdayCanvas');
 const ctx = canvas.getContext('2d');
 
-const gallery = document.getElementById('gallery');
+const photoContainer = document.getElementById('photoContainer');
 const photo = document.getElementById('photo');
 const giftBtn = document.getElementById('giftBtn');
 
@@ -246,7 +210,6 @@ const images = [
 ];
 
 let index = 0;
-
 function startSlide() {
   setInterval(() => {
     index = (index + 1) % images.length;
@@ -260,7 +223,7 @@ gift.onclick = () => {
 
   if (!started) {
     canvas.classList.remove('hidden');
-    gallery.classList.remove('hidden');
+    photoContainer.classList.remove('hidden');
     giftBtn.classList.remove('hidden');
 
     resizeCanvas();
