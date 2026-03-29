@@ -12,6 +12,7 @@ body {
   font-family: 'Georgia', serif;
   background: linear-gradient(135deg, #ff9ecb, #ffc0cb);
   text-align: center;
+  overflow-x: hidden;
 }
 
 /* tombol awal */
@@ -100,6 +101,44 @@ canvas { width: 100%; border-radius: 20px; }
 
 /* hidden */
 .hidden { display: none; }
+
+/* efek teks 3D pink dan blink */
+.blink-text {
+  font-weight: bold;
+  font-size: 22px;
+  color: #ff69b4;
+  text-shadow: 2px 2px 0 #ff1493, 4px 4px 0 #ff69b4, 6px 6px 0 #ff1493;
+  animation: blink 1s infinite, loveFloat 3s ease-in-out infinite;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+/* blink */
+@keyframes blink {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0; }
+}
+
+/* floating effect love */
+@keyframes loveFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-5px) rotate(-2deg); }
+}
+
+/* efek hati floating */
+.love-script {
+  position: absolute;
+  font-size: 16px;
+  color: #ff69b4;
+  animation: floatLove 2s linear infinite;
+  pointer-events: none;
+  user-select: none;
+}
+@keyframes floatLove {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(-80px) rotate(360deg); opacity: 0; }
+}
 </style>
 </head>
 
@@ -138,8 +177,8 @@ canvas { width: 100%; border-radius: 20px; }
     setiap mimpimu perlahan menjadi kenyataan,<br>
     dan setiap harimu dihiasi dengan cinta yang tulus ✨<br><br>
     Terima kasih sudah hadir,<br>
-    dan menjadi alasan aku tersenyum setiap hari ❤️
-    KLIK KADONYA
+    dan menjadi alasan aku tersenyum setiap hari ❤️<br><br>
+    <span id="clickGift" class="blink-text">KLIK KADONYA</span>
   </div>
 
 </div>
@@ -239,6 +278,45 @@ gift.onclick = () => {
 giftBtn.onclick = () => {
   window.location.href = "https://wa.link/8y3x2g";
 };
+
+/* efek love script pada hover KLIK KADONYA */
+const clickGift = document.getElementById('clickGift');
+clickGift.addEventListener('mouseenter', () => {
+  for(let i=0; i<10; i++){
+    const heart = document.createElement('div');
+    heart.className = 'love-script';
+    heart.style.left = (Math.random() * window.innerWidth) + 'px';
+    heart.style.top = (Math.random() * window.innerHeight) + 'px';
+    heart.style.fontSize = (10 + Math.random()*20) + 'px';
+    heart.textContent = '❤️';
+    document.body.appendChild(heart);
+    setTimeout(()=> heart.remove(), 3000);
+  }
+});
+
+/* efek hati random berjalan terus di background */
+function floatingHearts() {
+  const heart = document.createElement('div');
+  heart.className = 'love-script';
+  heart.style.left = Math.random() * window.innerWidth + 'px';
+  heart.style.top = window.innerHeight + 'px';
+  heart.style.fontSize = (10 + Math.random()*25) + 'px';
+  heart.textContent = '💖';
+  document.body.appendChild(heart);
+
+  let pos = window.innerHeight;
+  const floatUp = setInterval(()=>{
+    pos -= 1 + Math.random()*2;
+    heart.style.top = pos + 'px';
+    if(pos < -50){
+      heart.remove();
+      clearInterval(floatUp);
+    }
+  }, 20);
+
+  setTimeout(floatingHearts, 500);
+}
+floatingHearts();
 </script>
 
 </body>
