@@ -26,6 +26,7 @@ body {
   border: none;
   background: #ff4da6;
   color: white;
+  cursor: pointer;
 }
 
 /* container */
@@ -41,10 +42,12 @@ canvas {
 }
 
 /* pesan */
-.message {
-  font-size: 15px;
-  padding: 15px;
+.message, .surprise {
+  font-family: 'Georgia', serif;
+  line-height: 1.6;
+  letter-spacing: 0.5px;
   color: white;
+  margin-top: 10px;
 }
 
 /* 🎁 kado */
@@ -93,12 +96,16 @@ canvas {
 /* surprise */
 .surprise {
   display: none;
-  color: white;
-  margin-top: 10px;
 }
 
 .open + .surprise {
   display: block;
+  animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+  from {opacity:0; transform:translateY(10px);}
+  to {opacity:1; transform:translateY(0);}
 }
 
 /* FOTO */
@@ -118,6 +125,7 @@ canvas {
   background: #25D366;
   color: white;
   font-size: 16px;
+  cursor: pointer;
 }
 
 /* hidden */
@@ -142,7 +150,12 @@ canvas {
   </div>
 
   <div class="surprise">
-    🎉 Aku sayang ndut, SHELLY APRILIANI SURBAKTI 💖
+    ✨ Untukmu yang paling istimewa ✨<br><br>
+    Di hari yang indah ini,<br>
+    aku hanya ingin kamu tahu…<br>
+    bahwa kehadiranmu adalah hadiah terindah dalam hidupku 💖<br><br>
+    Selamat ulang tahun Sayang,<br>
+    <b>SHELLY APRILIANI SRUBAKTI</b> 🌹
   </div>
 
   <!-- FOTO -->
@@ -156,8 +169,12 @@ canvas {
   </button>
 
   <div class="message">
-    Selamat ulang tahun 💖<br>
-    Panjang Umur Sehat Selalu Sayang ❤️
+    💖 Happy Birthday My Love 💖<br><br>
+    Semoga setiap langkahmu selalu dipenuhi kebahagiaan,<br>
+    setiap mimpimu perlahan menjadi kenyataan,<br>
+    dan setiap harimu dihiasi dengan cinta yang tulus ✨<br><br>
+    Terima kasih sudah hadir,<br>
+    dan menjadi alasan aku tersenyum setiap hari ❤️
   </div>
 
 </div>
@@ -214,7 +231,7 @@ function drawCake() {
   }
 
   ctx.fillStyle = '#fff';
-  ctx.font = 'bold 14px Arial';
+  ctx.font = 'bold 14px Georgia';
   ctx.fillText('Happy Birthday 💖', w*0.25, h*0.9);
 
   requestAnimationFrame(drawCake);
