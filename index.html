@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Surprise 💖</title>
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #ff9ecb, #ffc0cb);
+  overflow: hidden;
+  text-align: center;
+}
+
+#startBtn {
+  margin-top: 40vh;
+  padding: 18px 35px;
+  font-size: 22px;
+  border: none;
+  border-radius: 40px;
+  background: #ff4da6;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 25px rgba(255, 0, 102, 0.7);
+  transition: 0.3s;
+}
+
+#startBtn:hover {
+  transform: scale(1.1);
+}
+
+.hidden {
+  display: none;
+}
+
+.message {
+  margin-top: 20px;
+  font-size: 22px;
+  color: white;
+  padding: 20px;
+  animation: fadeIn 2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px);} 
+  to { opacity: 1; transform: translateY(0);} 
+}
+
+.floating-img {
+  position: absolute;
+  width: 120px;
+  border-radius: 15px;
+  animation: float 6s infinite ease-in-out;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-40px); }
+  100% { transform: translateY(0); }
+}
+
+.heart {
+  position: absolute;
+  font-size: 24px;
+  animation: rise 5s linear infinite;
+}
+
+@keyframes rise {
+  0% { transform: translateY(100vh); opacity: 1; }
+  100% { transform: translateY(-10vh); opacity: 0; }
+}
+
+.canvas-wrap {
+  margin-top: 20px;
+}
+
+canvas {
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+</style>
+</head>
+<body>
+
+<button id="startBtn">Welcome Sayangku 💖</button>
+
+<div id="content" class="hidden">
+  
+  <div class="canvas-wrap">
+    <canvas id="birthdayCanvas" width="600" height="300"></canvas>
+    <br><br>
+    <button id="giftBtn" style="padding:12px 25px; font-size:18px; border:none; border-radius:30px; background:#ff1a75; color:white; cursor:pointer; box-shadow:0 0 15px rgba(255,0,100,0.6); transition:0.3s;">
+      Mau hadiah apa sayang 🎁
+    </button>
+  </div>
+
+  <div class="message">
+    Selamat ulang tahun, sayang 💖<br><br>
+    Di hari istimewa ini, aku cuma ingin kamu tahu betapa berharganya kamu buat aku.<br>
+    Terima kasih sudah hadir dan mengisi hari-hariku dengan kebahagiaan, tawa, dan cinta.<br><br>
+    <b>PANJANG UMUR SEHAT SELALU SAYANG</b>
+  </div>
+</div>
+
+<audio id="bgMusic" loop>
+  <source src="https://files.catbox.moe/3a7k9m.mp3" type="audio/mp3">
+</audio>
+
+<script>
+const btn = document.getElementById('startBtn');
+const content = document.getElementById('content');
+const music = document.getElementById('bgMusic');
+
+btn.onclick = () => {
+  document.getElementById('giftBtn').onclick = () => {
+    window.open('https://wa.link/8y3x2g', '_blank');
+  };
+  btn.style.display = 'none';
+  content.classList.remove('hidden');
+  music.play().catch(()=>{});
+  createImages();
+  createHearts();
+  startCanvasAnimation();
+};
+
+function createImages() {
+  const images = [
+    'https://i.ibb.co/60hk0tTJ/S-18358291.jpg',
+    'https://i.ibb.co/GvpQ8c3p/S-18358288.jpg',
+    'https://i.ibb.co/H9zDRKq/S-18358281.jpg',
+    'https://i.ibb.co/KxG7nrLB/S-18358289.jpg'
+  ];
+
+  images.forEach(src => {
+    const img = document.createElement('img');
+    img.src = src;
+    img.className = 'floating-img';
+    img.style.left = Math.random() * 90 + 'vw';
+    img.style.top = Math.random() * 80 + 'vh';
+    document.body.appendChild(img);
+  });
+}
+
+function createHearts() {
+  setInterval(() => {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.innerHTML = '💖';
+    heart.style.left = Math.random() * 100 + 'vw';
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 5000);
+  }, 300);
+}
+
+// 🎂 ANIMASI ULANG TAHUN DI CANVAS
+function startCanvasAnimation() {
+  const canvas = document.getElementById('birthdayCanvas');
+  const ctx = canvas.getContext('2d');
+
+  let candles = 5;
+
+  function drawCake() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    // cake
+    ctx.fillStyle = '#ff66b2';
+    ctx.fillRect(150,150,300,100);
+
+    // top cream
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(150,130,300,30);
+
+    // candles
+    for(let i=0;i<candles;i++){
+      let x = 180 + i*50;
+      ctx.fillStyle = '#ffff66';
+      ctx.fillRect(x,100,10,30);
+
+      // flame
+      ctx.beginPath();
+      ctx.fillStyle = Math.random() > 0.5 ? 'orange' : 'yellow';
+      ctx.arc(x+5,95,5,0,Math.PI*2);
+      ctx.fill();
+    }
+
+    // text
+    ctx.fillStyle = '#fff';
+    ctx.font = '20px Arial';
+    ctx.fillText('Happy Birthday 💖', 200, 280);
+  }
+
+  setInterval(drawCake, 300);
+
+  // efek klik di kue (opsional tambahan interaksi)
+  canvas.addEventListener('click', () => {
+    alert('Happy Birthday Sayang 💖');
+  });
+}
+</script>
+
+</body>
+</html>
